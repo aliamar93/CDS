@@ -1,0 +1,87 @@
+﻿@model DAL.DBEntities.tblRole
+
+@{
+    Layout = null;
+    string postAction = Model != null && Model.RoleID > 0 ? "Edit" : "Save";
+}
+
+<script type="text/javascript">
+    function RoleSuccess(result) {
+        debugger;
+        if (result.success) {
+            window.location.reload();
+        }
+        else {
+            $('.modal-backdrop').remove();
+            $('#RoleModal').modal('show');
+        }
+    }
+
+</script>
+
+@using (Ajax.BeginForm(postAction, "Role", new AjaxOptions { HttpMethod = "POST", UpdateTargetId = "ModalRole", OnSuccess = "RoleSuccess" }, new { @id = "RoleForm" }))
+{
+
+    @Html.ValidationSummary(true);
+    string formHeading = "New Role";
+    if (Model == null || Model.RoleID == 0)
+    {
+
+    }
+    else
+    {
+
+        formHeading = "Role (" + Model.RoleName + ")";
+    }
+
+    <div class="modal fade" id="RoleModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">     
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header mheader">
+                    <h4 class="modal-title mtitle" id="myModalLabel">@formHeading</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+
+                </div>
+                <div class="modal-body mbody">
+                    <div class="form-horizontal">
+                        <div class="form-group fgroup">
+                            <label class="control-label">Role Name</label>
+                            @Html.HiddenFor(m => m.RoleID, new Dictionary<string, object> { { "data-val", false } })
+                            @Html.TextBoxFor(model => model.RoleName, new { @class = "form-control", validate = "Validate", require = "Please Enter Name" })
+                            @Html.ValidationMessageFor(model => model.RoleName)
+                        </div>
+
+
+                        <div class="form-group fgroup">
+                            <label class="control-label">&nbsp;</label>
+                            <div class="checkbox">
+                                @Html.CheckBoxFor(model => model.IsActive, new { @class = "chk-col-cyan" })
+                                @Html.LabelFor(modle => modle.IsActive, new { @class = "lbl-chk-cyan ch-box-text" })
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer mfooter">
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                    <button type="submit" id="btnSave" class="btn btn-info waves-effect btnSubmit">Submit</button>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+
+@*<script src="@Url.Content("~/Assets/plugins/foolproof/mvcfoolproof.unobtrusive.min.js")"></script>*@
+
+
+<script type="text/javascript">
+    $(document).ready(function () {
+    //  $(".selectpicker").selectpicker();
+        
+      //  validateModal("RoleForm");
+
+    });
+</script>
+
+

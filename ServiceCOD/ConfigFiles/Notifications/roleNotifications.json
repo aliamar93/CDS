@@ -1,0 +1,9 @@
+﻿{
+  "onsuccess": "Role {0} is created successfully",
+  "onupdate": "Role {0} is updated successfully",
+  "ondeleted": "Role {0} is deleted successfully",
+  "ondenied": "This role is in use and can't be deleted.",
+  "onfailed": "Failed",
+  "found": "{0} records found",
+  "othermsg": "{0}"
+}

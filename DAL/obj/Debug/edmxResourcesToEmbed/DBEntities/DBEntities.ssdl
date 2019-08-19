@@ -1,0 +1,307 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="DBEntitiesModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="tblActionEndPoint">
+    <Key>
+      <PropertyRef Name="EndPointID" />
+    </Key>
+    <Property Name="EndPointID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="PermissionActionID" Type="int" Nullable="false" />
+    <Property Name="APIController" Type="varchar" MaxLength="50" />
+    <Property Name="APIName" Type="varchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="tblAppClient">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="AppName" Type="nvarchar" MaxLength="50" />
+    <Property Name="AppID" Type="nvarchar" MaxLength="50" />
+    <Property Name="AppSecret" Type="nvarchar" MaxLength="150" />
+    <Property Name="CallBackUrl" Type="nvarchar" MaxLength="250" />
+    <Property Name="Created" Type="datetime2" Precision="7" />
+  </EntityType>
+  <EntityType Name="tblModule">
+    <Key>
+      <PropertyRef Name="ModuleID" />
+    </Key>
+    <Property Name="ModuleID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="ModuleName" Type="varchar" MaxLength="50" />
+    <Property Name="IsActive" Type="bit" Nullable="false" />
+    <Property Name="ModuleOrder" Type="int" />
+    <Property Name="ModuleIcon" Type="varchar" MaxLength="50" />
+    <Property Name="ParentID" Type="int" />
+    <Property Name="IsChargeable" Type="bit" Nullable="false" />
+    <Property Name="Charges" Type="decimal" Precision="18" Scale="0" />
+  </EntityType>
+  <EntityType Name="tblPage">
+    <Key>
+      <PropertyRef Name="PageID" />
+    </Key>
+    <Property Name="PageID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="ModuleID" Type="int" Nullable="false" />
+    <Property Name="PageName" Type="varchar" MaxLength="50" />
+    <Property Name="PageUrl" Type="varchar" MaxLength="50" />
+    <Property Name="PageOrder" Type="int" />
+    <Property Name="IsActive" Type="bit" Nullable="false" />
+    <Property Name="PageIcon" Type="varchar" MaxLength="50" />
+    <Property Name="ShowOnMenu" Type="bit" Nullable="false" />
+    <Property Name="Controller" Type="varchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="tblPermission">
+    <Key>
+      <PropertyRef Name="PermissionID" />
+    </Key>
+    <Property Name="PermissionID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="PageID" Type="int" Nullable="false" />
+    <Property Name="Permission" Type="varchar" MaxLength="100" Nullable="false" />
+    <Property Name="IsActive" Type="bit" Nullable="false" />
+  </EntityType>
+  <EntityType Name="tblPermissionActionJunc">
+    <Key>
+      <PropertyRef Name="PermissionActionID" />
+    </Key>
+    <Property Name="PermissionActionID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="PermissionID" Type="int" Nullable="false" />
+    <Property Name="Action" Type="varchar" MaxLength="100" Nullable="false" />
+    <Property Name="IsLandingAction" Type="int" />
+  </EntityType>
+  <EntityType Name="tblProduct">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="ProductCode" Type="varchar" MaxLength="10" />
+    <Property Name="ProductTypeID" Type="int" />
+    <Property Name="SKU" Type="varchar" MaxLength="50" />
+    <Property Name="Price" Type="decimal" Precision="18" Scale="2" />
+    <Property Name="Description" Type="varchar" MaxLength="200" />
+    <Property Name="CreatedBy" Type="int" />
+    <Property Name="UpdatedBy" Type="int" />
+    <Property Name="DeletedBy" Type="int" />
+    <Property Name="Created" Type="datetime2" Precision="7" />
+    <Property Name="Updated" Type="datetime2" Precision="7" />
+    <Property Name="Deleted" Type="datetime2" Precision="7" />
+  </EntityType>
+  <EntityType Name="tblProductType">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="TypeName" Type="varchar" MaxLength="50" />
+    <Property Name="Initials" Type="varchar" MaxLength="10" />
+  </EntityType>
+  <EntityType Name="tblRole">
+    <Key>
+      <PropertyRef Name="RoleID" />
+    </Key>
+    <Property Name="RoleID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="RoleName" Type="varchar" MaxLength="100" Nullable="false" />
+    <Property Name="IsActive" Type="bit" Nullable="false" />
+    <Property Name="CreatedBy" Type="int" />
+    <Property Name="Created" Type="datetime2" Precision="7" />
+    <Property Name="UpdatedBy" Type="int" />
+    <Property Name="Updated" Type="datetime2" Precision="7" />
+    <Property Name="DeletedBy" Type="int" />
+    <Property Name="Deleted" Type="datetime2" Precision="7" />
+  </EntityType>
+  <EntityType Name="tblRolePermissionJunc">
+    <Key>
+      <PropertyRef Name="RolePermissionJuncID" />
+    </Key>
+    <Property Name="RolePermissionJuncID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="PermissionID" Type="int" Nullable="false" />
+    <Property Name="RoleID" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="tblUser">
+    <Key>
+      <PropertyRef Name="UserID" />
+    </Key>
+    <Property Name="UserID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="UserLoginID" Type="varchar" MaxLength="50" />
+    <Property Name="FirstName" Type="varchar" MaxLength="50" />
+    <Property Name="LastName" Type="varchar" MaxLength="50" />
+    <Property Name="Phone" Type="varchar" MaxLength="50" />
+    <Property Name="Email" Type="varchar" MaxLength="100" />
+    <Property Name="Password" Type="varchar" MaxLength="100" />
+    <Property Name="ReportingTo" Type="int" />
+    <Property Name="UserType" Type="int" />
+    <Property Name="IsActive" Type="bit" Nullable="false" />
+    <Property Name="CreateBy" Type="int" />
+    <Property Name="UpdateBy" Type="int" />
+    <Property Name="DeletedBy" Type="int" />
+    <Property Name="CreateDate" Type="datetime2" Precision="7" />
+    <Property Name="UpdateDate" Type="datetime2" Precision="7" />
+    <Property Name="Deleted" Type="datetime2" Precision="7" />
+    <Property Name="Closed" Type="datetime2" Precision="7" />
+    <Property Name="ClosedBy" Type="int" />
+    <Property Name="LastPasswordChanged" Type="datetime2" Precision="7" />
+    <Property Name="LandingPage" Type="nvarchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="tblUserRole">
+    <Key>
+      <PropertyRef Name="UserRoleID" />
+    </Key>
+    <Property Name="UserRoleID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="UserID" Type="int" Nullable="false" />
+    <Property Name="RoleID" Type="int" Nullable="false" />
+  </EntityType>
+  <Association Name="FK_tblActionEndPoint_tblPermissionActionJunc">
+    <End Role="tblPermissionActionJunc" Type="Self.tblPermissionActionJunc" Multiplicity="1" />
+    <End Role="tblActionEndPoint" Type="Self.tblActionEndPoint" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tblPermissionActionJunc">
+        <PropertyRef Name="PermissionActionID" />
+      </Principal>
+      <Dependent Role="tblActionEndPoint">
+        <PropertyRef Name="PermissionActionID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_tblPage_tblModule">
+    <End Role="tblModule" Type="Self.tblModule" Multiplicity="1" />
+    <End Role="tblPage" Type="Self.tblPage" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tblModule">
+        <PropertyRef Name="ModuleID" />
+      </Principal>
+      <Dependent Role="tblPage">
+        <PropertyRef Name="ModuleID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_tblPermission_tblPage">
+    <End Role="tblPage" Type="Self.tblPage" Multiplicity="1" />
+    <End Role="tblPermission" Type="Self.tblPermission" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tblPage">
+        <PropertyRef Name="PageID" />
+      </Principal>
+      <Dependent Role="tblPermission">
+        <PropertyRef Name="PageID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_tblPermissionActionJunc_tblPermission">
+    <End Role="tblPermission" Type="Self.tblPermission" Multiplicity="1" />
+    <End Role="tblPermissionActionJunc" Type="Self.tblPermissionActionJunc" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tblPermission">
+        <PropertyRef Name="PermissionID" />
+      </Principal>
+      <Dependent Role="tblPermissionActionJunc">
+        <PropertyRef Name="PermissionID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_tblProduct_tblProductType">
+    <End Role="tblProductType" Type="Self.tblProductType" Multiplicity="0..1" />
+    <End Role="tblProduct" Type="Self.tblProduct" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tblProductType">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="tblProduct">
+        <PropertyRef Name="ProductTypeID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_tblRolePermissionJunc_tblPermission">
+    <End Role="tblPermission" Type="Self.tblPermission" Multiplicity="1" />
+    <End Role="tblRolePermissionJunc" Type="Self.tblRolePermissionJunc" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tblPermission">
+        <PropertyRef Name="PermissionID" />
+      </Principal>
+      <Dependent Role="tblRolePermissionJunc">
+        <PropertyRef Name="PermissionID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_tblRolePermissionJunc_tblRole">
+    <End Role="tblRole" Type="Self.tblRole" Multiplicity="1" />
+    <End Role="tblRolePermissionJunc" Type="Self.tblRolePermissionJunc" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tblRole">
+        <PropertyRef Name="RoleID" />
+      </Principal>
+      <Dependent Role="tblRolePermissionJunc">
+        <PropertyRef Name="RoleID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_tblUserRole_tblRole">
+    <End Role="tblRole" Type="Self.tblRole" Multiplicity="1" />
+    <End Role="tblUserRole" Type="Self.tblUserRole" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tblRole">
+        <PropertyRef Name="RoleID" />
+      </Principal>
+      <Dependent Role="tblUserRole">
+        <PropertyRef Name="RoleID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_tblUserRole_tblUser">
+    <End Role="tblUser" Type="Self.tblUser" Multiplicity="1" />
+    <End Role="tblUserRole" Type="Self.tblUserRole" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tblUser">
+        <PropertyRef Name="UserID" />
+      </Principal>
+      <Dependent Role="tblUserRole">
+        <PropertyRef Name="UserID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="DBEntitiesModelStoreContainer">
+    <EntitySet Name="tblActionEndPoint" EntityType="Self.tblActionEndPoint" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tblAppClient" EntityType="Self.tblAppClient" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tblModule" EntityType="Self.tblModule" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tblPage" EntityType="Self.tblPage" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tblPermission" EntityType="Self.tblPermission" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tblPermissionActionJunc" EntityType="Self.tblPermissionActionJunc" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tblProduct" EntityType="Self.tblProduct" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tblProductType" EntityType="Self.tblProductType" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tblRole" EntityType="Self.tblRole" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tblRolePermissionJunc" EntityType="Self.tblRolePermissionJunc" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tblUser" EntityType="Self.tblUser" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tblUserRole" EntityType="Self.tblUserRole" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK_tblActionEndPoint_tblPermissionActionJunc" Association="Self.FK_tblActionEndPoint_tblPermissionActionJunc">
+      <End Role="tblPermissionActionJunc" EntitySet="tblPermissionActionJunc" />
+      <End Role="tblActionEndPoint" EntitySet="tblActionEndPoint" />
+    </AssociationSet>
+    <AssociationSet Name="FK_tblPage_tblModule" Association="Self.FK_tblPage_tblModule">
+      <End Role="tblModule" EntitySet="tblModule" />
+      <End Role="tblPage" EntitySet="tblPage" />
+    </AssociationSet>
+    <AssociationSet Name="FK_tblPermission_tblPage" Association="Self.FK_tblPermission_tblPage">
+      <End Role="tblPage" EntitySet="tblPage" />
+      <End Role="tblPermission" EntitySet="tblPermission" />
+    </AssociationSet>
+    <AssociationSet Name="FK_tblPermissionActionJunc_tblPermission" Association="Self.FK_tblPermissionActionJunc_tblPermission">
+      <End Role="tblPermission" EntitySet="tblPermission" />
+      <End Role="tblPermissionActionJunc" EntitySet="tblPermissionActionJunc" />
+    </AssociationSet>
+    <AssociationSet Name="FK_tblProduct_tblProductType" Association="Self.FK_tblProduct_tblProductType">
+      <End Role="tblProductType" EntitySet="tblProductType" />
+      <End Role="tblProduct" EntitySet="tblProduct" />
+    </AssociationSet>
+    <AssociationSet Name="FK_tblRolePermissionJunc_tblPermission" Association="Self.FK_tblRolePermissionJunc_tblPermission">
+      <End Role="tblPermission" EntitySet="tblPermission" />
+      <End Role="tblRolePermissionJunc" EntitySet="tblRolePermissionJunc" />
+    </AssociationSet>
+    <AssociationSet Name="FK_tblRolePermissionJunc_tblRole" Association="Self.FK_tblRolePermissionJunc_tblRole">
+      <End Role="tblRole" EntitySet="tblRole" />
+      <End Role="tblRolePermissionJunc" EntitySet="tblRolePermissionJunc" />
+    </AssociationSet>
+    <AssociationSet Name="FK_tblUserRole_tblRole" Association="Self.FK_tblUserRole_tblRole">
+      <End Role="tblRole" EntitySet="tblRole" />
+      <End Role="tblUserRole" EntitySet="tblUserRole" />
+    </AssociationSet>
+    <AssociationSet Name="FK_tblUserRole_tblUser" Association="Self.FK_tblUserRole_tblUser">
+      <End Role="tblUser" EntitySet="tblUser" />
+      <End Role="tblUserRole" EntitySet="tblUserRole" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

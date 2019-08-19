@@ -1,0 +1,12 @@
+{
+"FCMKey" : "Password@123#",
+"KeySec" : "AAAAB3g5F0Q:APA91bHRToRTsjiAeXV1kHrAabDys1Uw4piaJTS0NnySzXXBi1nFaLSs3cqaw25ospCigSzWxk3uL-IFbFEmW5tCMED8Gc25RqVXKrZO3ANNkacPy0BH7MxsyWTTVE4OV-0wmz3fDeuA",
+"EnableErrorLog" : false,
+"EnableEventLog" : false,
+"EnableAuthActivityLog" : true,
+"EnableUnAuthActivityLog" : true,
+"UseCookies" : true,
+"CODServiceAppID" : "MATECHapp",
+"CODServiceAppSecret" : "MATECHappsecret",
+"TokenValidHours" : 24
+}

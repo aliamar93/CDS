@@ -1,0 +1,185 @@
+﻿
+@{
+    Layout = null;
+    var thisController = (COD.Controllers.BaseController)ViewContext.Controller;
+    var currentUser = thisController.currentUser;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Matech Test</title>
+
+    <link href="~/Assets/Style/font-awesome.min.css" rel="stylesheet" />
+    <link href="~/Assets/Style/icomoon/styles.css" rel="stylesheet" />
+    <link href="~/Assets/Style/Global/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/Assets/Style/Global/dataTables-bootstrap-min.css" rel="stylesheet" />
+    <link href="~/Assets/Style/Global/jquery-ui.css" rel="stylesheet" />
+    <link href="~/Assets/Style/Global/bootstrap-select.min.css" rel="stylesheet" />
+    <link href="~/Assets/Style/Global/spinners.css" rel="stylesheet" />
+    <link href="~/Assets/Scripts/plugins/toast-master/css/jquery.toast.css" rel="stylesheet" />
+
+    <style type="text/css">
+        .field-validation-error {
+            color: red;
+        }
+
+        .preloader {
+            width: 100%;
+            height: 100%;
+            top: 0px;
+            position: fixed;
+            z-index: 99999;
+            background: black;
+            opacity: 0.5;
+        }
+
+        .preloader .cssload-speeding-wheel {
+            position: absolute;
+            top: calc(50% - 3.5px);
+            left: calc(50% - 3.5px);
+        }
+    </style>
+    @RenderSection("styles", false)
+</head>
+
+<body>
+    <!-- ============================================================== -->
+    <!-- Preloader - style you can find in spinners.css -->
+    <!-- ============================================================== -->
+    <div class="preloader">
+        <svg class="circular" viewBox="25 25 50 50">
+            <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="2" stroke-miterlimit="10" />
+        </svg>
+    </div>
+    <!-- ============================================================== -->
+    <!-- Main wrapper - style you can find in pages.scss -->
+    <!-- ============================================================== -->
+    <!-- /main navbar -->
+    <!-- Second navbar -->
+    <div class="navbar navbar-default" id="navbar-second">
+        <div class="container">
+
+            <ul class="nav navbar-nav no-border visible-xs-block">
+                <li><a class="text-center collapsed" data-toggle="collapse" data-target="#navbar-second-toggle"><i class="icon-menu7"></i></a></li>
+            </ul>
+
+            <div class="navbar-collapse collapse" id="navbar-second-toggle">
+                <ul class="nav navbar-nav">
+
+
+
+                    @*<li class="active"><a href='@dashurl'><i class='fa fa-tachometer position-left'></i>Dashboard</a></li>*@
+
+
+                    @{
+                        string Mainli = "";
+
+                        foreach (var drModule in currentUser.moduleList.Distinct().OrderBy(x => x.ModuleOrder).ToList())
+                        {
+
+
+                            var modpagelist = drModule.tblPages.Where(x => x.ModuleID == drModule.ModuleID && x.ShowOnMenu == true).Distinct().ToList();
+                            if (modpagelist.Count > 1)
+                            {
+                                string Subli = "<li class='dropdown'> " +
+                                         "  <a href='#' class='dropdown-toggle' data-toggle='dropdown'> " +
+                                            "   <i class='" + drModule.ModuleIcon + " position-left'></i> " + drModule.ModuleName + " <span class='caret'></span></a> " +
+
+                                          " <ul class='dropdown-menu width-200' > ";
+
+                                foreach (var drro in modpagelist)
+                                {
+                                    Subli = Subli + "<li><a href='" + drro.PageUrl + "'><i class='" + drro.PageIcon + "'></i> " + drro.PageName + "</a></li>";
+                                }
+
+
+                                Subli = Subli + "  </ul>  </li>";
+                                Mainli = Mainli + Subli;
+                            }
+                            else
+                            {
+
+                                Mainli = Mainli + "<li ><a href='" + modpagelist.Select(x => x.PageUrl).FirstOrDefault() + "'><i class='" + drModule.ModuleIcon + " position-left'></i> " + modpagelist.Select(x => x.PageName).FirstOrDefault() + "</a></li>";
+
+                            }
+
+
+
+                        }
+
+
+                    }
+                    @Html.Raw(Mainli)
+
+
+                </ul>
+
+                <a href="/Login/Logout" class="pull-right" style="margin-top:10px; text-decoration:none">Logout</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        @RenderBody()
+    </div>
+
+
+    <script src="~/Assets/Scripts/Global/jquery.min.js"></script>
+    <script src="~/Assets/Scripts/plugins/popper/popper.min.js"></script>
+    <script src="~/Assets/Scripts/Global/bootstrap.min.js"></script>
+    <script src="~/Assets/Scripts/plugins/toast-master/js/jquery.toast.js"></script>
+
+    <!-- Jquery datatabel Plugin Js -->
+    <script src="~/Assets/Scripts/plugins/datatable/jquery.dataTables.min.js"></script>
+    <script src="~/Assets/Scripts/plugins/datatable/dataTables.bootstrap.min.js"></script>
+
+    <!-- Bootstrap-Select Picker Plugin Js -->
+    <script src="~/Assets/Scripts/plugins/bootstrap-select/bootstrap-select.min.js"></script>
+
+    @*Custom Scripts*@
+    <script src="~/Assets/Scripts/Global/Jfunc.js"></script>
+
+    @*Jquery Validation*@
+    <script src="@Url.Content("~/Assets/Scripts/Global/jquery.validate.min.js")"></script>
+    <script src="@Url.Content("~/Assets/Scripts/plugins/mvc/jquery.validate.unobtrusive.min.js")"></script>
+
+
+
+    @*Site Scripts*@
+    <script type="text/javascript">
+        $(document).ready(function () {
+            //Show message popup
+
+            hideLoader();
+            var successMsg = '@TempData[TempKey.SuccessMsg.ToString()]';
+            var failedMsg = '@TempData[TempKey.FailedMsg.ToString()]';
+            var deniedMsg = '@TempData[TempKey.DeniedMsg.ToString()]';
+            if (successMsg) {
+                showNotification(notificationType.success, "Success", successMsg);
+            }
+            else if (failedMsg) {
+                showNotification(notificationType.error, "Failed", failedMsg);
+            }
+            else if (deniedMsg) {
+                showNotification(notificationType.info, "Access Denied", deniedMsg);
+            }
+
+            $(".btnSubmit,.btnAction").click(function (e) {
+                //e.preventDefault();
+
+                //var form = $('form');
+                //if (form && form.valid()) {
+                showLoader();
+                setTimeout(function () { hideLoader(); }, 3000)
+                //}
+            });
+        });
+    </script>
+
+    @RenderSection("scripts", false)
+    @RenderSection("modals", false)
+</body>
+</html>

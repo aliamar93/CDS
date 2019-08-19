@@ -1,0 +1,174 @@
+﻿@model List<DAL.DBEntities.tblUser>
+@{
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    var thisController = (COD.Controllers.UserController)ViewContext.Controller;
+    string currentControllerName = this.ViewContext.RouteData.Values["controller"].ToString();
+
+    //.Where(x => x.Controller.ToLower() == currentControllerName.ToLower()).FirstOrDefault().
+
+    var thisPagePermissions = thisController.currentUser.thisPage.tblPermissions.ToList();
+}
+
+<p>Users Index</p>
+
+<div class="row">
+@if (thisPagePermissions.Where(x => x.Permission == PermissionEnum.CreateUser).FirstOrDefault() != null)
+{
+    <div class="col-sm-12" style="padding:10px">
+       <button class="btn btn-primary pull-right" id="AddNew">New User</button>
+    </div>
+}
+</div>
+<div class="row">
+    <table id="dtUser" class="table table-responsive jqDataTable">
+        <thead>
+            <tr>
+                <td>User ID</td>
+                <td>Full Name</td>
+                <td>Username</td>
+                <td>Role</td>
+                <td>Email</td>
+                <td>Action</td>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model != null && Model.Count > 0)
+            {
+                foreach (var user in Model)
+                {
+                    <tr>
+                        <td>@user.UserID</td>
+                        <td>@user.FirstName @user.LastName</td>
+                        <td>@user.UserLoginID</td>
+                        <td>@string.Join(",", user.tblUserRoles.Select(x => x.tblRole.RoleName).ToList())</td>
+                        <td>@user.Email</td>
+                        <td></td>
+                    </tr>
+                }
+            }
+
+        </tbody>
+    </table>
+</div>
+
+
+
+@section scripts
+{
+    <script type="text/javascript">
+
+
+        $(document).ready(function () {     
+
+
+            //Populate Datatable
+            $('#dtUser').DataTable({
+                "processing": true,
+                "serverSide": true,
+                "ajax":
+                {
+                    "url": "/User/Index",
+                    "type": "POST",
+                    "dataType": "JSON",
+                    "global": false,
+                },
+                "columns": [
+                  {
+                      "data": "UserID"
+                  },
+                  {
+                      "data": "FullName"
+                  },
+                  {
+                      "data": "Role"
+                  },
+                  {
+                      "data": "UserName"
+                  },
+                   {
+                       "data": "Email"
+                   },
+                  {
+                      "data": "UserID", "render": function (data, type, full, meta) {
+
+                          var htm = '';
+                          @{
+
+                          if (thisPagePermissions.Where(x => x.Permission == PermissionEnum.ViewUserDetail).FirstOrDefault() != null)
+                          {
+                              @:htm += '<button class="btn btn-default EditUser" _id="' + data + '" title="View" actionfor="View"><i class="icon-eye" data-toggle="tooltip" data-placement="right"></i></button>'
+                                                    }
+                          @*if (thisPagePermissions.Where(x => x.Permission == PermissionEnum.UpdateUser).FirstOrDefault() != null)
+                          {
+                              @:htm += '<button class="btn btn-default EditUser" _id="' + data + '" title="Edit" actionfor="Edit"><i class="icon-pencil" data-toggle="tooltip" data-placement="right"></i></button>'
+                                                    }
+                          if (thisPagePermissions.Where(x => x.Permission == PermissionEnum.DeleteUser).FirstOrDefault() != null)
+                          {
+                              @:htm += '<button class="btn btn-default Deleteuser" _id="' + data + '" title="Delete"><i class="icon-trash" data-toggle="tooltip" data-placement="right"></i></button>'
+                                                    }*@
+
+                      }
+                          return htm;
+                      }
+                  }
+                ],
+                initComplete: function () {
+                    var api = this.api();
+                    $('#dtUser_filter input')
+                        .off('.DT')
+                        .on('keyup.DT', function (e) {
+
+                            if (e.keyCode == 13 || this.value.length == 0) {
+                                api.search(this.value).draw();
+                            }
+                        });
+                }
+
+            });
+
+
+            //Other Scripts
+
+            //Click Events
+
+            $('body').on("click", ".EditUser,#AddNew", function () {
+                var id = $(this).attr('_id');
+                var obj = { id: id };
+
+                var title = $(this).attr('actionfor');
+                var url = '';
+                if (title == "View") {
+                    endpoint = "Detail";
+                    url = '@Url.Action("Detail", "User")';
+                    
+                }
+                else if (title == "Edit")
+                {
+                    url = '@Url.Action("Edit", "User")';
+                }
+                else {
+                    url = '@Url.Action("Save", "User")';
+                    obj = null;
+                }
+
+                $.get(url, obj, function (data) {
+                    $("#ModalUser").html(data);
+                    $("#UserModal").modal('show');
+                    if (title == "View") {
+                       // disable_Controls("UserModal");
+                        //Fetched new Modal
+                        $("#btnSave").addClass("hide");
+                    }
+                });
+
+            });
+
+        });
+
+    </script>
+
+}
+
+@section modals{
+<div id="ModalUser"></div>
+}

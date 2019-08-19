@@ -1,0 +1,119 @@
+﻿@model List<DAL.DBEntities.tblRole>
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+
+    var thisController = (COD.Controllers.RoleController)ViewContext.Controller;
+    string currentControllerName = this.ViewContext.RouteData.Values["controller"].ToString();
+
+    var thisPagePermissions = thisController.currentUser.thisPage.tblPermissions.ToList();   
+}
+
+<h2>Role Index</h2>
+
+
+<div class="row">
+    <table class="table table-responsive jqDataTable">
+        <thead>
+            <tr>
+                <td>Role ID</td>
+                <td>Role Name</td>
+                <td>Is Active</td>
+                <td>Actions</td>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model != null && Model.Count > 0)
+            {
+                foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@item.RoleID</td>
+                        <td>@item.RoleName</td>
+                        <td>@item.IsActive</td>
+                        <td>
+                            @if (thisPagePermissions.Where(x => x.Permission == PermissionEnum.ViewRoleDetail).FirstOrDefault() != null)
+                            {
+                                <button class="btn btn-default EditRole" _id="@item.RoleID" title="View" actionfor="View"><i class="icon-eye" data-toggle="tooltip" data-placement="right"></i></button>
+                            }
+                            @*@if (thisPagePermissions.Where(x => x.Permission == PermissionEnum.UpdateRole).FirstOrDefault() != null)
+                            {
+                                <button class="btn btn-default EditRole" _id="@item.RoleID" title="Edit" actionfor="Edit"><i class="icon-pencil" data-toggle="tooltip" data-placement="right"></i></button>
+                            }
+                            @if (thisPagePermissions.Where(x => x.Permission == PermissionEnum.DeleteRole).FirstOrDefault() != null)
+                            {
+                                <button class="btn btn-default DeleteRole" _id="@item.RoleID" title="Delete"><i class="icon-trash" data-toggle="tooltip" data-placement="right"></i></button>
+                            }*@
+                            @if (thisPagePermissions.Where(x => x.Permission == PermissionEnum.ViewRolePermission).FirstOrDefault() != null)
+                            {
+                                <button class="btn btn-default Permissions" _id="@item.RoleID" title="Permissions"><i class="icon-key" data-toggle="tooltip" data-placement="right"></i></button>
+                            }
+                        </td>
+                    </tr>
+                }
+            }
+
+        </tbody>
+    </table>
+</div>
+
+@section scripts
+{
+
+    <script type="text/javascript">
+
+
+    $(document).ready(function () {
+        $('.jqDataTable').DataTable();
+
+
+
+        $('body').on("click", ".EditRole,#AddNew", function () {
+            var id = $(this).attr('_id');
+            var obj = { id: id };
+
+            var title = $(this).attr('actionfor');
+            var url = '';
+            if (title == "View") {
+                url = '@Url.Action("Detail", "Role")';
+            }
+            else if (title == "Edit") {
+                url = '@Url.Action("Edit", "Role")';
+            }
+            else {
+                url = '@Url.Action("Save", "Role")';
+                obj = null;
+            }
+
+
+
+            $.get(url, obj, function (data) {
+                debugger;
+             //   hideLoader();
+                $("#ModalRole").html(data);
+                $("#RoleModal").modal('show');
+                if (title == "View") {
+                    disable_Controls("RoleModal");
+                    //Fetched new Modal
+                    $("#btnSave").hide();
+                }
+            });
+
+        });
+
+
+
+        $(".Permissions").click(function () {
+            var roleid = $(this).attr("_id");
+            var url = '@Url.Action("RolePermission", "Role")' + '/' + roleid;
+            window.location.replace(url);
+        });
+    });
+
+    </script>
+
+}
+
+@section modals{
+    <div id="ModalRole"></div>
+}

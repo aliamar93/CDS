@@ -1,0 +1,197 @@
+﻿@model DAL.DBEntities.tblUser
+
+
+
+<script type="text/javascript">
+    function UserSuccess(result) {
+        debugger;
+        if (result.success) {
+            window.location.reload();
+        }
+        else {
+            $('.modal-backdrop').remove();
+            $('#UserModal').modal('show');
+        }
+    }
+
+</script>
+
+@using (Ajax.BeginForm("Save", "User", new AjaxOptions { HttpMethod = "POST", UpdateTargetId = "ModalUser", OnSuccess = "UserSuccess" }, new { @id = "UserForm" }))
+{
+
+    @Html.ValidationSummary(true);
+    string portalUser = string.Empty;
+    string employeeChecked = string.Empty;
+    if (Model == null || Model.UserID == 0)
+    {
+        portalUser = "checked";
+    }
+    else
+    {
+        portalUser = "xyz";
+    }
+
+
+    <div class="modal fade" id="UserModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        @*<div class="modal fade bs-example-modal-lg" data-toggle="modal" data-backdrop="static" data-keyboard="false"
+            role="basic" id="UserModal" tabindex="-1" aria-labelledby="myModalLabel"
+            aria-hidden="true" style="display: none">*@
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                    <h4 class="modal-title" id="myModalLabel">Add User</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="form-horizontal">
+
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">User Type</label>
+                            <div class="col-sm-9">
+                                @Html.HiddenFor(model => model.UserID, new Dictionary<string, object> { { "data-val", false } })
+
+                                <label>
+                                    @Html.RadioButtonFor(model => model.UserType, "1", new Dictionary<string, object> { { "class", "userType" }, { portalUser, "true" }, { "id", "UserType1" } }) Web
+                                </label>
+                                <label>
+                                    @Html.RadioButtonFor(model => model.UserType, "2", new Dictionary<string, object> { { "class", "userType" }, { "id", "UserType2" } }) API
+                                </label>
+                                <label>
+                                    @Html.RadioButtonFor(model => model.UserType, "3", new Dictionary<string, object> { { "class", "userType" }, { "id", "UserType3" } }) Both
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">First Name</label>
+                            <div class="col-sm-9">
+                                @Html.TextBoxFor(model => model.FirstName, new { @class = "form-control", validate = "Validate", require = "Please Enter Name" })
+                                @Html.ValidationMessageFor(model => model.FirstName)
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">Last Name</label>
+                            <div class="col-sm-9">
+                                @Html.TextBoxFor(model => model.LastName, new { @class = "form-control", validate = "Validate", require = "Please Enter Name" })
+                                @Html.ValidationMessageFor(model => model.LastName)
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">Role</label>
+                            <div class="col-sm-9">
+                                @Html.DropDownListFor(model => model.RoleIdList, new SelectList(ViewBag.RoleList, "RoleID", "RoleName"), new Dictionary<string, object> { { "class", "form-control selectpicker" }, { "data-live-search", true }, { "multiple", true } })
+                                @Html.ValidationMessageFor(model => model.RoleIdList)
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">Landing Page</label>
+                            <div class="col-sm-9">
+                                @Html.DropDownListFor(model => model.LandingPageId, new SelectList(ViewBag.LandingPageList, "PageID", "PageName"), "Please select", new Dictionary<string, object> { { "class", "form-control selectpicker" }, { "data-live-search", true } })
+                                @Html.ValidationMessageFor(model => model.LandingPageId)
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">Email</label>
+                            <div class="col-sm-9">
+                                @Html.TextBoxFor(model => model.Email, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.Email)
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">Phone</label>
+                            <div class="col-sm-9">
+                                @Html.TextBoxFor(model => model.Phone, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.Phone)
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">User ID</label>
+                            <div class="col-sm-9">
+                                @if (Model != null && Model.UserID > 0)
+                                {
+                                    @Html.TextBox("txtUserName", Model.UserLoginID, new { @class = "form-control", @disabled = "true" })
+                                    @Html.HiddenFor(model => model.UserLoginID, new Dictionary<string, object> { { "data-val", false } })
+                                }
+                                else
+                                {
+                                    @Html.TextBoxFor(model => model.UserLoginID, new { @class = "form-control", autocomplete = "off" })
+                                    @Html.ValidationMessageFor(model => model.UserLoginID)
+                                }
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">Password</label>
+                            <div class="col-sm-9">
+                                @Html.TextBoxFor(model => model.Password, new { @class = "form-control", validate = "Validate", require = "Please Enter Password", type = "Password", autocomplete = "new-password" })
+                                @Html.ValidationMessageFor(model => model.Password)
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">Confirm Password</label>
+                            <div class="col-sm-9">
+                                @Html.TextBoxFor(model => model.ConfirmPassword, new { @class = "form-control", validate = "Validate", require = "Please Enter Password", type = "Password", autocomplete = "new-password" })
+                                @Html.ValidationMessageFor(model => model.ConfirmPassword)
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">&nbsp;</label>
+                            <div class="col-sm-9">
+                                <div class="checkbox">
+                                    @Html.CheckBoxFor(model => model.IsActive)
+                                    <label for="IsActive">Active</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="submit" id="btnSave" class="btn bg-teal-400 btnSubmit">Submit</button>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+
+<script src="@Url.Content("~/Assets/Scripts/plugins/mvc/jquery.unobtrusive-ajax.min.js")"></script>
+<script src="@Url.Content("~/Assets/Scripts/plugins/foolproof/mvcfoolproof.unobtrusive.min.js")"></script>
+
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $(".selectpicker").selectpicker();
+
+        validateModal("UserForm");
+
+        $("#RoleIdList").change(function () {
+            debugger;
+            var roles = $(this).val();
+            if (roles.length > 0) {
+                $.ajax({
+                    type: 'POST',
+                    url: '@Url.Action("getLandingPageList","User")',
+                    data: { roleids: roles },
+                    datatype: 'json',
+                    success: function (result) {
+                        $("#LandingPageId").empty();
+                        $("#LandingPageId").append('<option value>Please Select</option>');
+                        $.each(result, function (i, page) {
+                            $("#LandingPageId").append('<option value="' + page.PageID + '">' +
+                                page.PageName + '</option>');
+                        });
+                        $("#LandingPageId").selectpicker('refresh');
+                    }
+                });
+            } else {
+                $("#LandingPageId").empty();
+                $("#LandingPageId").append('<option value>Please Select</option>');
+                $("#LandingPageId").selectpicker('refresh');
+            }
+            
+        });
+    });
+</script>

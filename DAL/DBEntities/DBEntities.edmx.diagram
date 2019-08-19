@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="d1986f2c883444ba82bae70d46fbbaa7" Name="Diagram1">
+        <EntityTypeShape EntityType="DBEntitiesModel.tblModule" Width="1.5" PointX="0.75" PointY="3.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBEntitiesModel.tblPage" Width="1.5" PointX="3" PointY="3.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBEntitiesModel.tblPermission" Width="1.5" PointX="5.25" PointY="3.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBEntitiesModel.tblPermissionActionJunc" Width="1.5" PointX="7.5" PointY="3.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBEntitiesModel.tblRole" Width="1.5" PointX="5.25" PointY="7.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBEntitiesModel.tblRolePermissionJunc" Width="1.5" PointX="7.5" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBEntitiesModel.tblUser" Width="1.5" PointX="5.25" PointY="11.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBEntitiesModel.tblUserRole" Width="1.5" PointX="7.5" PointY="8.25" IsExpanded="true" />
+        <AssociationConnector Association="DBEntitiesModel.FK_tblPage_tblModule" ManuallyRouted="false" />
+        <AssociationConnector Association="DBEntitiesModel.FK_tblPermission_tblPage" ManuallyRouted="false" />
+        <AssociationConnector Association="DBEntitiesModel.FK_tblPermissionActionJunc_tblPermission" ManuallyRouted="false" />
+        <AssociationConnector Association="DBEntitiesModel.FK_tblRolePermissionJunc_tblPermission" ManuallyRouted="false" />
+        <AssociationConnector Association="DBEntitiesModel.FK_tblRolePermissionJunc_tblRole" ManuallyRouted="false" />
+        <AssociationConnector Association="DBEntitiesModel.FK_tblUserRole_tblRole" ManuallyRouted="false" />
+        <AssociationConnector Association="DBEntitiesModel.FK_tblUserRole_tblUser" />
+        <EntityTypeShape EntityType="DBEntitiesModel.tblAppClient" Width="1.5" PointX="0.75" PointY="7.75" />
+        <EntityTypeShape EntityType="DBEntitiesModel.tblActionEndPoint" Width="1.5" PointX="9.75" PointY="3.875" />
+        <AssociationConnector Association="DBEntitiesModel.FK_tblActionEndPoint_tblPermissionActionJunc" />
+        <EntityTypeShape EntityType="DBEntitiesModel.tblProduct" Width="1.5" PointX="0.75" PointY="10.75" />
+        <EntityTypeShape EntityType="DBEntitiesModel.tblProductType" Width="1.5" PointX="0.75" PointY="0.75" />
+        <AssociationConnector Association="DBEntitiesModel.FK_tblProduct_tblProductType" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

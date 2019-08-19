@@ -1,0 +1,9 @@
+﻿{
+  "onsuccess": "Product {0} is created successfully",
+  "onupdate": "Product {0} is updated successfully",
+  "ondeleted": "Product {0} is deleted successfully",
+  "ondenied": "This product is in use and can't be deleted.",
+  "onfailed": "Failed",
+  "found": "{0} records found",
+  "othermsg": "{0}"
+}

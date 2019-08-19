@@ -1,0 +1,187 @@
+﻿@{
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    var thisController = (COD.Controllers.ProductController)ViewContext.Controller;
+    string currentControllerName = this.ViewContext.RouteData.Values["controller"].ToString();
+
+    var thisPagePermissions = thisController.currentUser.thisPage.tblPermissions.ToList();
+}
+
+@section styles{
+<link href="~/Assets/Scripts/plugins/sweetalert/sweetalert.css" rel="stylesheet" />
+}
+
+<p>Product List</p>
+
+<div class="row">
+    @if (thisPagePermissions.Where(x => x.Permission == PermissionEnum.CreateProduct).FirstOrDefault() != null)
+    {
+    <div class="col-sm-12" style="padding:10px">
+        <button class="btn btn-primary pull-right" id="AddNew">New Product</button>
+    </div>
+    }
+</div>
+<div class="row">
+    <table id="dtProduct" class="table table-responsive jqDataTable">
+        <thead>
+            <tr>
+                <td>Product ID</td>
+                <td>Name</td>
+                <td>Product Code</td>
+                <td>Type</td>
+                <td>SKU</td>
+                <td>Action</td>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+</div>
+
+
+
+@section scripts
+{
+<script src="~/Assets/Scripts/plugins/sweetalert/sweetalert.min.js"></script>
+<script src="~/Assets/Scripts/plugins/sweetalert/jquery.sweet-alert.custom.js"></script>
+
+    <script type="text/javascript">
+
+        var currentProductID = '0';
+
+        $(document).ready(function () {
+
+
+            //Populate Datatable
+            $('#dtProduct').DataTable({
+                "processing": true,
+                "serverSide": true,
+                "paging": true,
+                "ajax":
+                {
+                    "url": "/Product/Index",
+                    "type": "POST",
+                    "dataType": "JSON",
+                    "global": false,
+                },
+                "columns": [
+                  {
+                      "data": "ProductID"
+                  },
+                  {
+                      "data": "Name"
+                  },
+                  {
+                      "data": "ProductCode"
+                  },
+                  {
+                      "data": "ProductType"
+                  },
+                   {
+                       "data": "SKU"
+                   },
+                  {
+                      "data": "ProductID", "render": function (data, type, full, meta) {
+
+                          var htm = '';
+                          @{
+
+                          if (thisPagePermissions.Where(x => x.Permission == PermissionEnum.ViewProductDetail).FirstOrDefault() != null)
+                          {
+                              @:htm += '<button class="btn btn-default EditProduct" _id="' + data + '" title="View" actionfor="View"><i class="icon-eye" data-toggle="tooltip" data-placement="right"></i></button>'
+                                                                              }
+                          if (thisPagePermissions.Where(x => x.Permission == PermissionEnum.UpdateProduct).FirstOrDefault() != null)
+                          {
+                              @:htm += '<button class="btn btn-default EditProduct" _id="' + data + '" title="Edit" actionfor="Edit"><i class="icon-pencil" data-toggle="tooltip" data-placement="right"></i></button>'
+                                                                              }
+                          if (thisPagePermissions.Where(x => x.Permission == PermissionEnum.DeleteProduct).FirstOrDefault() != null)
+                          {
+                              @:htm += '<button class="btn btn-default DeleteProduct" _id="' + data + '" title="Delete"><i class="icon-trash" data-toggle="tooltip" data-placement="right"></i></button>'
+                                                                              }
+
+                      }
+                          return htm;
+                      }
+                  }
+                ],
+                initComplete: function () {
+                    var api = this.api();
+                    $('#dtProduct_filter input')
+                        .off('.DT')
+                        .on('keyup.DT', function (e) {
+
+                            if (e.keyCode == 13 || this.value.length == 0) {
+                                api.search(this.value).draw();
+                            }
+                        });
+                }
+
+            });
+
+
+            //Other Scripts
+
+            //Click Events
+
+            $('body').on("click", ".EditProduct,#AddNew", function () {
+                var id = $(this).attr('_id');
+                var obj = { id: id };
+
+                var title = $(this).attr('actionfor');
+                var url = '';
+                if (title == "View") {
+                    endpoint = "Detail";
+                    url = '@Url.Action("Detail", "Product")';
+
+                }
+                else if (title == "Edit") {
+                    url = '@Url.Action("Update", "Product")';
+                }
+                else {
+                    url = '@Url.Action("Save", "Product")';
+                    obj = null;
+                }
+
+                $.get(url, obj, function (data) {
+                    $("#ModalProduct").html(data);
+                    $("#ProductModal").modal('show');
+                    if (title == "View") {
+                         disable_Controls("ProductModal");
+                        //Fetched new Modal
+                        $("#btnSave").addClass("hide");
+                    }
+                });
+
+            });
+
+
+            //Delete Product
+            $('body').on("click", ".DeleteProduct", function () {
+
+                currentProductID = $(this).attr('_id');
+
+                showConfirmationModal("Are you sure!", "Please confirm if you want to delete this product.", function () {
+                    var obj = { id: currentProductID };
+                    var url = '@Url.Action("Delete", "Product")';
+
+                    $.get(url, obj, function (data) {
+                        if (data.success) {
+
+                            showAlertModal("Success", data.message, "success");
+                            setTimeout(function () { window.location.reload(); }, 1500);
+                        }
+                        else {
+                            showAlertModal("Failed", data.message, "error");
+                        }
+
+                    });
+                });
+            });
+
+        });
+
+    </script>
+
+}
+
+@section modals{
+    <div id="ModalProduct"></div>
+}

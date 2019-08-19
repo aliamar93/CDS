@@ -1,0 +1,61 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29102.190
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "COD", "COD\COD.csproj", "{A6FDE23C-9F30-473E-96D9-33D602959D16}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DAL", "DAL\DAL.csproj", "{1068CA12-0E95-45E9-A66B-FF89568298C8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BAL", "BAL\BAL.csproj", "{50A27EE1-B601-41FA-AFE3-D2509C987D71}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ServiceCOD", "ServiceCOD\ServiceCOD.csproj", "{73116197-5A92-43DD-BF21-02A0FAC9807D}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{A6FDE23C-9F30-473E-96D9-33D602959D16}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A6FDE23C-9F30-473E-96D9-33D602959D16}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A6FDE23C-9F30-473E-96D9-33D602959D16}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A6FDE23C-9F30-473E-96D9-33D602959D16}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1068CA12-0E95-45E9-A66B-FF89568298C8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1068CA12-0E95-45E9-A66B-FF89568298C8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1068CA12-0E95-45E9-A66B-FF89568298C8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1068CA12-0E95-45E9-A66B-FF89568298C8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{50A27EE1-B601-41FA-AFE3-D2509C987D71}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{50A27EE1-B601-41FA-AFE3-D2509C987D71}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{50A27EE1-B601-41FA-AFE3-D2509C987D71}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{50A27EE1-B601-41FA-AFE3-D2509C987D71}.Release|Any CPU.Build.0 = Release|Any CPU
+		{73116197-5A92-43DD-BF21-02A0FAC9807D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{73116197-5A92-43DD-BF21-02A0FAC9807D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{73116197-5A92-43DD-BF21-02A0FAC9807D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{73116197-5A92-43DD-BF21-02A0FAC9807D}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {CE127F03-8398-46D7-9BC9-2A25AD6F7054}
+	EndGlobalSection
+	GlobalSection(TeamFoundationVersionControl) = preSolution
+		SccNumberOfProjects = 5
+		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
+		SccTeamFoundationServer = https://amarmaymon.visualstudio.com/
+		SccLocalPath0 = .
+		SccProjectUniqueName1 = BAL\\BAL.csproj
+		SccProjectName1 = BAL
+		SccLocalPath1 = BAL
+		SccProjectUniqueName2 = COD\\COD.csproj
+		SccProjectName2 = COD
+		SccLocalPath2 = COD
+		SccProjectUniqueName3 = DAL\\DAL.csproj
+		SccProjectName3 = DAL
+		SccLocalPath3 = DAL
+		SccProjectUniqueName4 = ServiceCOD\\ServiceCOD.csproj
+		SccProjectName4 = ServiceCOD
+		SccLocalPath4 = ServiceCOD
+	EndGlobalSection
+EndGlobal

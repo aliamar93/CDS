@@ -1,0 +1,111 @@
+﻿@model DAL.Models.LoginViewModel
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Login Matech</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!--===============================================================================================-->
+    <link rel="icon" type="image/png" href="~/Assets/Images/Pages/Login/favicon.ico" />
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="~/Assets/Style/Pages/Login/bootstrap.min.css">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="~/Assets/Style/Pages/Login/font-awesome.min.css">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="~/Assets/Style/Pages/Login/icon-font.min.css">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="~/Assets/Style/Pages/Login/animate.css">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="~/Assets/Style/Pages/Login/hamburgers.min.css">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="~/Assets/Style/Pages/Login/animsition.min.css">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="~/Assets/Style/Pages/Login/select2.min.css">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="~/Assets/Style/Pages/Login/daterangepicker.css">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="~/Assets/Style/Pages/Login/util.css">
+    <link rel="stylesheet" type="text/css" href="~/Assets/Style/Pages/Login/main.css">
+    <!--===============================================================================================-->
+</head>
+<body>
+    @using (Html.BeginForm("signin","login", FormMethod.Post))
+    { 
+    <div class="limiter">
+        <div class="container-login100">
+            <div class="wrap-login100 p-t-90 p-b-30">
+                <form class="login100-form validate-form">
+                    <span class="login100-form-title p-b-40">
+                        Login
+                    </span>
+
+                    <div class="wrap-input100 validate-input m-b-16" data-validate="Please enter email: ex@abc.xyz">
+                        @Html.TextBoxFor(m => m.username, new { @class = "input100", @placeholder = "Username", @value= "admin" })
+                        <span class="focus-input100"></span>
+                    </div>
+                    @Html.ValidationMessageFor(m => m.username)
+
+                    <div class="wrap-input100 validate-input m-b-20" data-validate="Please enter password">
+                        <span class="btn-show-pass">
+                            <i class="fa fa fa-eye"></i>
+                        </span>
+
+                        @Html.PasswordFor(m => m.password, new { @class = "input100", @placeholder = "Password", @value = "admin" })
+                        <span class="focus-input100"></span>
+                    </div>
+                    @Html.ValidationMessageFor(m => m.password)
+
+                    <div class="bs-container" style="text-align:center">
+                        @*@Html.CheckBoxFor(m => m.remember, new { @class = ""})
+                        Remember Me*@
+                        <p style="color:red" id="lblMsg"></p>
+                    </div>
+
+                    <div class="container-login100-form-btn">
+                        <button class="login100-form-btn">
+                            Login
+                        </button>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+    </div>
+
+    }
+    <!--===============================================================================================-->
+    <script src='@Url.Content("~/Assets/Scripts/Pages/Login/jquery-3.2.1.min.js")'></script>
+    <!--===============================================================================================-->
+    <script src='@Url.Content("~/Assets/Scripts/Pages/Login/animsition.min.js")'></script>
+    <!--===============================================================================================-->
+    <script src='@Url.Content("~/Assets/Scripts/Pages/Login/popper.min.js")'></script>
+    <script src='@Url.Content("~/Assets/Scripts/Pages/Login/bootstrap.min.js")'></script>
+    <!--===============================================================================================-->
+    <script src='@Url.Content("~/Assets/Scripts/Pages/Login/select2.min.js")'></script>
+    <!--===============================================================================================-->
+    <script src='@Url.Content("~/Assets/Scripts/Pages/Login/moment.min.js")'></script>
+    <script src='@Url.Content("~/Assets/Scripts/Pages/Login/daterangepicker.js")'></script>
+    <!--===============================================================================================-->
+    <script src=@Url.Content("~/Assets/Scripts/Pages/Login/countdowntime.js")></script>
+    <!--===============================================================================================-->
+    <script src='@Url.Content("~/Assets/Scripts/Pages/Login/main.js")'></script>
+
+
+ <script type="text/javascript">
+     $(document).ready(function () {
+         var msg = '@ViewBag.lblMsg';
+         if(msg)
+         {
+             $('#lblMsg').html(msg);
+         }
+     });
+ </script>
+
+
+</body>
+</html>
