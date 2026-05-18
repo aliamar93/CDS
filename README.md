@@ -1,28 +1,35 @@
-CDS Project
+# CDS
 
-A modern CDS-based application built to simplify data modeling, service exposure, and enterprise application development using SAP CAP (Cloud Application Programming Model).
+CDS is an ASP.NET MVC 5 web application built with a layered architecture using C#, .NET Framework 4.5.2, Entity Framework, and SQL Server.
 
-Repository: CDS GitHub Repository
+The solution is organized into separate projects for presentation, business logic, data access, and service/API functionality. It includes modules for users, roles, permissions, products, authentication, dashboard views, and access control.
 
-📌 Overview
+## Repository
 
-This project demonstrates how to build scalable enterprise-grade applications using:
+GitHub: https://github.com/aliamar93/CDS
 
-SAP CAP (CDS)
-Node.js / TypeScript
-OData Services
-Database modeling with CDS
-RESTful APIs
-Modular service architecture
+## Project Structure
 
-The application is designed with clean architecture principles and focuses on maintainability, scalability, and rapid development.
-
-🚀 Features
-CDS domain modeling
-OData V4 services
-REST API support
-Database persistence
-Modular service layer
-Easy deployment
-Extensible architecture
-Enterprise-ready structure
+```text
+CDS/
+│
+├── COD/              # Main ASP.NET MVC web application
+│   ├── Controllers/  # MVC controllers
+│   ├── Models/       # View models, enums, settings, common services
+│   ├── Views/        # Razor views
+│   ├── Assets/       # CSS, JavaScript, images, frontend assets
+│   └── Web.config    # Web application configuration
+│
+├── BAL/              # Business Access Layer / Repository logic
+│   └── Repositories/ # Business repositories and shared logic
+│
+├── DAL/              # Data Access Layer
+│   ├── DBEntities/   # Entity Framework database model
+│   ├── Models/       # Data models
+│   └── Resources/    # Resource files
+│
+├── ServiceCOD/       # Service/API project
+│
+├── packages/         # NuGet packages
+│
+└── COD.sln           # Visual Studio solution file
