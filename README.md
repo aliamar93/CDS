@@ -1,4 +1,3 @@
-README.md
 CDS Project
 
 A modern CDS-based application built to simplify data modeling, service exposure, and enterprise application development using SAP CAP (Cloud Application Programming Model).
